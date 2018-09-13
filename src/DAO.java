@@ -26,6 +26,64 @@ public class DAO {
 			e.printStackTrace();
 		}
 	}
+	
+	public boolean verifyLogin(User user) {
+		try {
+			PreparedStatement stmt = connection.prepareStatement("SELECT password FROM User WHERE name=?");
+			
+			stmt.setString(1, user.getName());
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			if (user.getPassword().equals(rs.getString("password"))) {
+				rs.close();
+				stmt.close();
+				return true;
+			}
+			else {
+				rs.close();
+				stmt.close();
+				return false;
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean verifySignUp(User user) {
+		try {
+			PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(name) FROM User WHERE name=?");
+			stmt.setString(1, user.getName());
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				if (rs.getInt(1) == 0) {
+					rs.close();
+					stmt.close();
+					return true;
+				}
+				else {
+					System.out.println(rs.getInt(1));
+					rs.close();
+					stmt.close();
+					return false;
+				}
+			}
+			else {
+				System.out.println("Error: could not get the record counts");
+			}
+			
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	public List<User> getUsers() {
 		List<User> users = new ArrayList<User>();
@@ -128,8 +186,7 @@ public class DAO {
 	public void removeUser(Integer id) {
 		PreparedStatement stmt;
 		try {
-			stmt = connection
-					.prepareStatement("DELETE FROM user WHERE id_user=?");
+			stmt = connection.prepareStatement("DELETE FROM user WHERE id_user=?");
 			stmt.setLong(1, id);
 			stmt.execute();
 			stmt.close();

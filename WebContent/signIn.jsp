@@ -31,7 +31,7 @@
 				<div class="col s12 m12">
 					<div class="card">
 						<div class="card-content">
-							<form action="signUpUser" method="post">
+							<form action="verifyLogin" method="post">
 								<div class="row">
 									<div class="input-field col s12">
 										<input id="username" type="text" class="validate" name="username"> 
@@ -45,7 +45,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<button class="btn waves-effect waves-light yellow darken-4" type="submit">Sign Up</button>
+									<button class="btn waves-effect waves-light yellow darken-4" type="submit">Login</button>
 								</div>
 							</form>
 						</div>

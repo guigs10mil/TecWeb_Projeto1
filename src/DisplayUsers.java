@@ -9,6 +9,22 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/displayUsers")
 public class DisplayUsers extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public DisplayUsers() {
+		super();
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response)
+					throws ServletException, IOException {
+		service(request, response);
+	}
+
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response)
 					throws ServletException, IOException {

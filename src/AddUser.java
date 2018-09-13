@@ -5,6 +5,11 @@ import javax.servlet.annotation.WebServlet;
 
 @WebServlet("/addUser")
 public class AddUser extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response)
