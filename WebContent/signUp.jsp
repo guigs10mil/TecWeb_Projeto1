@@ -19,7 +19,7 @@
 <body>
 	<nav class="deep-orange darken-4" role="navigation">
 		<div class="nav-wrapper container">
-			<a id="logo-container" href="#" class="brand-logo">Holy Note</a>
+			<a id="logo-container" href="./index.jsp" class="brand-logo">Holy Note</a>
 			<ul class="right">
 			</ul>
 		</div>

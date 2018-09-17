@@ -35,11 +35,9 @@
 	%>
 	<!-- Dropdown Structure -->
 	<ul id="dropdown1" class="dropdown-content">
-		<li><a href="#!">one</a></li>
-		<li><a href="#!">two</a></li>
+		<li><a href="./editUser.jsp">EDIT USER</a></li>
 		<li class="divider"></li>
-		<li class="red"><a href="#!" style="color: #fff;">DELETE
-				ACCOUNT</a></li>
+		<li class="red"><a href="./index.jsp" style="color: #fff;">SIGN OUT</a></li>
 	</ul>
 
 	<nav class="deep-orange darken-4">

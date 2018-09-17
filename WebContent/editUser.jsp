@@ -31,21 +31,27 @@
 				<div class="col s12 m12">
 					<div class="card">
 						<div class="card-content">
-							<form action="verifyLogin" method="post">
+							<form action="updateUser" method="post">
 								<div class="row">
 									<div class="input-field col s12">
-										<input id="username" type="text" class="validate" name="username"> 
-										<label for="username">Username</label>
+										<input id="username" type="text" class="validate" name="new_username"> 
+										<label for="username">Edit Username</label>
 									</div>
 								</div>
 								<div class="row">
 									<div class="input-field col s12">
-										<input id="pass" type="password" class="validate" name="password"> 
-										<label for="pass">Password</label>
+										<input id="pass" type="password" class="validate" name="old_password"> 
+										<label for="pass"> Old Password</label>
 									</div>
 								</div>
 								<div class="row">
-									<button class="btn waves-effect waves-light yellow darken-4" type="submit">Login</button>
+									<div class="input-field col s12">
+										<input id="pass" type="password" class="validate" name="new_password"> 
+										<label for="pass"> New Password</label>
+									</div>
+								</div>								
+								<div class="row" style="margin: 0px;">
+									<button class="btn waves-effect waves-light yellow darken-4" type="submit">Save</button>
 								</div>
 							</form>
 						</div>
