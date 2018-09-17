@@ -1,5 +1,7 @@
 package keep;
 import java.io.*;
+import java.util.Calendar;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,9 +20,11 @@ public class UpdateNote extends HttpServlet {
             throws ServletException, IOException {
         DAO dao = new DAO();
         Note note = new Note();
+        Calendar date = Calendar.getInstance();
         note.setId(Integer.valueOf(request.getParameter("idNote")));
         note.setText(request.getParameter("text"));
         note.setLabel(request.getParameter("label"));
+        note.setDateCreated(date);
         dao.updateNote(note);
 
         dao.close();

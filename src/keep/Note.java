@@ -1,13 +1,15 @@
 package keep;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Note {
 	private Integer id;
 	private String color;
-	private Calendar dateCreated;
+	private Long dateCreated;
 	private String text;
 	private Integer idUser;
 	private String label;
+	private String rightdate;
 
 	public Integer getId() {
 		return this.id;
@@ -25,12 +27,20 @@ public class Note {
 		this.color = color;
 	}
 
-	public Calendar getDateCreated() {
+	public Long getDateCreated() {
 		return dateCreated;
 	}
 
-	public void setDateCreated(Calendar dateCreated) {
-		this.dateCreated = dateCreated;
+	public void setDateCreated(Calendar date) {
+		this.dateCreated = date.getTimeInMillis();
+	}
+	
+	public String getrightdate() {
+		Calendar data = Calendar.getInstance();
+		data.setTimeInMillis(this.dateCreated);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		this.rightdate = sdf.format(data.getTime());
+		return rightdate;
 	}
 
 	public String getText() {

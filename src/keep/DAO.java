@@ -1,6 +1,6 @@
 package keep;
+
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,17 +21,18 @@ public class DAO {
 			e.printStackTrace();
 		}
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost/keep?useTimezone=true&serverTimezone=UTC", "root", "");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost/keep?useTimezone=true&serverTimezone=UTC",
+					"root", "Magonegro1");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public boolean verifyLogin(User user) {
 		try {
 			PreparedStatement stmt = connection.prepareStatement("SELECT password FROM User WHERE name=?");
-			
+
 			stmt.setString(1, user.getName());
 			ResultSet rs = stmt.executeQuery();
 			rs.next();
@@ -39,21 +40,19 @@ public class DAO {
 				rs.close();
 				stmt.close();
 				return true;
-			}
-			else {
+			} else {
 				rs.close();
 				stmt.close();
 				return false;
 			}
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
+
 	public boolean verifySignUp(User user) {
 		try {
 			PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(name) FROM User WHERE name=?");
@@ -64,66 +63,61 @@ public class DAO {
 					rs.close();
 					stmt.close();
 					return true;
-				}
-				else {
+				} else {
 					System.out.println(rs.getInt(1));
 					rs.close();
 					stmt.close();
 					return false;
 				}
-			}
-			else {
+			} else {
 				System.out.println("Error: could not get the record counts");
 			}
-			
-			
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
-	public int getIdUser(User user) {
-        String sql = "SELECT id_user FROM User WHERE name = ?";
-        PreparedStatement stmt;
-        int id = 0;
-        try {
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, user.getName());
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                id = rs.getInt(1);
-                rs.close();
-                stmt.close();
 
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return id;
-    }
-	
+	public int getIdUser(User user) {
+		String sql = "SELECT id_user FROM User WHERE name = ?";
+		PreparedStatement stmt;
+		int id = 0;
+		try {
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, user.getName());
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				id = rs.getInt(1);
+				rs.close();
+				stmt.close();
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+
 	public String getUsername(int idUser) {
 		String sql = "SELECT name FROM User WHERE id_user = ?";
-        PreparedStatement stmt;
-        try {
-            stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, idUser);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                String username = rs.getString(1);
-                rs.close();
-                stmt.close();
-                return username;
+		PreparedStatement stmt;
+		try {
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, idUser);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				String username = rs.getString(1);
+				rs.close();
+				stmt.close();
+				return username;
 
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return "Could'nt get Username";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "Could'nt get Username";
 	}
 
 	public List<User> getUsers() {
@@ -146,11 +140,11 @@ public class DAO {
 		}
 		return users;
 	}
-	
+
 	public List<Note> getNotes(int id) {
 		List<Note> notes = new ArrayList<Note>();
 		try {
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Note WHERE id_user=?");
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Note WHERE id_user=? ORDER BY date_created DESC");
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -158,7 +152,7 @@ public class DAO {
 				note.setId(rs.getInt("id_note"));
 				note.setColor(rs.getString("color"));
 				Calendar data = Calendar.getInstance();
-				data.setTime(rs.getDate("date_created"));
+				data.setTimeInMillis(rs.getLong("date_created"));
 				note.setDateCreated(data);
 				note.setText(rs.getString("text"));
 				note.setIdUser(rs.getInt("id_user"));
@@ -183,17 +177,14 @@ public class DAO {
 		}
 	}
 
-	
-	
 	public void addUser(User user) {
-		String sql = "INSERT INTO user" +
-				"(name,password) values(?,?)";
+		String sql = "INSERT INTO user" + "(name,password) values(?,?)";
 
 		PreparedStatement stmt;
 		try {
 			stmt = connection.prepareStatement(sql);
-			stmt.setString(1,user.getName());
-			stmt.setString(2,user.getPassword());
+			stmt.setString(1, user.getName());
+			stmt.setString(2, user.getPassword());
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
@@ -202,20 +193,17 @@ public class DAO {
 		}
 
 	}
-	
+
 	public void addNote(Note note) {
-		String sql = "INSERT INTO note" +
-				"(color, date_created, text, id_user, label) values(?,?,?,?,?)";
-
+		String sql = "INSERT INTO note" + "(color, date_created, text, id_user, label) values(?,?,?,?,?)";
 		PreparedStatement stmt;
 		try {
 			stmt = connection.prepareStatement(sql);
-			stmt.setString(1,note.getColor());
-			stmt.setDate(2, new Date(
-					note.getDateCreated().getTimeInMillis()));
-			stmt.setString(3,note.getText());
-			stmt.setInt(4,note.getIdUser());
-			stmt.setString(5,note.getLabel());
+			stmt.setString(1, note.getColor());
+			stmt.setLong(2, note.getDateCreated());
+			stmt.setString(3, note.getText());
+			stmt.setInt(4, note.getIdUser());
+			stmt.setString(5, note.getLabel());
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
@@ -224,7 +212,7 @@ public class DAO {
 		}
 
 	}
-	
+
 	public void removeUser(Integer id) {
 		PreparedStatement stmt;
 		try {
@@ -236,9 +224,9 @@ public class DAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void removeNote(Integer id) {
 		PreparedStatement stmt;
 		try {
@@ -250,7 +238,7 @@ public class DAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void updateUser(User user) {
 		String sql = "UPDATE user SET " + "name=?, password=? WHERE id_user=?";
 		PreparedStatement stmt;
@@ -268,14 +256,14 @@ public class DAO {
 	}
 
 	public void updateNote(Note note) {
-		String sql = "UPDATE note SET " + "text=?, label=? WHERE id_note=?";
+		String sql = "UPDATE note SET " + "date_created=?, text=?, label=? WHERE id_note=?";
 		PreparedStatement stmt;
 		try {
 			stmt = connection.prepareStatement(sql);
-
-			stmt.setString(1, note.getText());
-			stmt.setString(2, note.getLabel());
-			stmt.setInt(3, note.getId());
+			stmt.setLong(1, note.getDateCreated());
+			stmt.setString(2, note.getText());
+			stmt.setString(3, note.getLabel());
+			stmt.setInt(4, note.getId());
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
