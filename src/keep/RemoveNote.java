@@ -1,3 +1,4 @@
+package keep;
 import java.io.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,24 +16,18 @@ public class RemoveNote extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<form method='post'>");
-        out.println("Remover ID: <input type='number' name='id'><br>");
-        out.println("<input type='submit' value='Submit'>");
-        out.println("</form>");
-        out.println("<body><html>");
+    	doPost(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DAO dao = new DAO();
-        dao.removeNote(Integer.valueOf(request.getParameter("id")));
-        PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("removido");
-        out.println("</body></html>");
+        dao.removeNote(Integer.valueOf(request.getParameter("idNote")));
+        System.out.println(request.getParameter("idUser"));
         dao.close();
+        
+        request.setAttribute("idUser", Integer.valueOf(request.getParameter("idUser")));
+        request.getRequestDispatcher("./notes.jsp").forward(request, response);
     }
 }

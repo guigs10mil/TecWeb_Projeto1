@@ -1,3 +1,4 @@
+package keep;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -84,6 +85,46 @@ public class DAO {
 		}
 		return false;
 	}
+	
+	public int getIdUser(User user) {
+        String sql = "SELECT id_user FROM User WHERE name = ?";
+        PreparedStatement stmt;
+        int id = 0;
+        try {
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, user.getName());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt(1);
+                rs.close();
+                stmt.close();
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+	
+	public String getUsername(int idUser) {
+		String sql = "SELECT name FROM User WHERE id_user = ?";
+        PreparedStatement stmt;
+        try {
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, idUser);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String username = rs.getString(1);
+                rs.close();
+                stmt.close();
+                return username;
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "Could'nt get Username";
+	}
 
 	public List<User> getUsers() {
 		List<User> users = new ArrayList<User>();
@@ -106,10 +147,11 @@ public class DAO {
 		return users;
 	}
 	
-	public List<Note> getNotes() {
+	public List<Note> getNotes(int id) {
 		List<Note> notes = new ArrayList<Note>();
 		try {
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Note");
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Note WHERE id_user=?");
+			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				Note note = new Note();

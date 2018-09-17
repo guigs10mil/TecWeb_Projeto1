@@ -1,3 +1,4 @@
+package keep;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -23,7 +24,10 @@ public class VerifyLogin extends HttpServlet {
 		
 		DAO dao = new DAO();
 		if (dao.verifyLogin(user)) {
-			response.sendRedirect(request.getContextPath() + "/index.jsp");
+			int idUser = dao.getIdUser(user);
+            request.setAttribute("idUser", idUser);
+			//response.sendRedirect(request.getContextPath() + "/notes.jsp");
+            request.getRequestDispatcher("./notes.jsp").forward(request, response);
 			System.out.println("Sign In Succeeded!");
 		}
 		else {

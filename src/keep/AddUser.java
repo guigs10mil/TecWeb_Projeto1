@@ -1,12 +1,11 @@
+package keep;
 import java.io.*;
-import java.util.Calendar;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/addNote")
-public class AddNote extends HttpServlet {
+@WebServlet("/addUser")
+public class AddUser extends HttpServlet {
 	/**
 	 * 
 	 */
@@ -19,8 +18,8 @@ public class AddNote extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.println("<html><body>");
 		out.println("<form method='post'>");
-		out.println("Text: <input type='text' name='text'><br>");
-		out.println("Label: <input type='text' name='label'><br>");
+		out.println("Username: <input type='text' name='name'><br>");
+		out.println("Password: <input type='text' name='password'><br>");
 		out.println("<input type='submit' value='Submit'>");
 		out.println("</form>");
 		out.println("<body><html>");
@@ -30,16 +29,13 @@ public class AddNote extends HttpServlet {
 			HttpServletResponse response)
 					throws ServletException, IOException {
 		DAO dao = new DAO();
-		Note note = new Note();
-		note.setColor("#ffffff");
-		note.setDateCreated(Calendar.getInstance());
-		note.setText(request.getParameter("text"));
-		note.setIdUser(6);
-		note.setLabel(request.getParameter("label"));
-		dao.addNote(note);
+		User user = new User();
+		user.setName(request.getParameter("name"));
+		user.setPassword(request.getParameter("password"));
+		dao.addUser(user);
 		PrintWriter out = response.getWriter();
 		out.println("<html><body>");
-		out.println("Note added.");
+		out.println("User " + user.getName() + " added.");
 		out.println("</body></html>");
 		dao.close();
 	}
