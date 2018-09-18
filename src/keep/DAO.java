@@ -22,7 +22,7 @@ public class DAO {
 		}
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost/keep?useTimezone=true&serverTimezone=UTC",
-					"root", "Magonegro1");
+					"root", "");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -144,7 +144,8 @@ public class DAO {
 	public List<Note> getNotes(int id) {
 		List<Note> notes = new ArrayList<Note>();
 		try {
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Note WHERE id_user=? ORDER BY date_created DESC");
+			PreparedStatement stmt = connection
+					.prepareStatement("SELECT * FROM Note WHERE id_user=? ORDER BY date_created DESC");
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {

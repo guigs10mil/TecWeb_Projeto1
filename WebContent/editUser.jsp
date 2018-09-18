@@ -19,7 +19,8 @@
 <body>
 	<nav class="deep-orange darken-4" role="navigation">
 		<div class="nav-wrapper container">
-			<a id="logo-container" href="./index.jsp" class="brand-logo">Holy Note</a>
+			<a id="logo-container" href="./index.jsp" class="brand-logo">Holy
+				Note</a>
 			<ul class="right">
 			</ul>
 		</div>
@@ -34,32 +35,35 @@
 							<form action="updateUser" method="post">
 								<div class="row">
 									<div class="input-field col s12">
-										<input id="username" type="text" class="validate" name="new_username"> 
-										<label for="username">Edit Username</label>
+										<input id="username" type="text" class="validate"
+											name="new_username"> <label for="username">Edit
+											Username</label>
 									</div>
 								</div>
 								<div class="row">
 									<div class="input-field col s12">
-										<input id="pass" type="password" class="validate" name="old_password"> 
-										<label for="pass"> Old Password</label>
+										<input id="pass" type="password" class="validate"
+											name="old_password"> <label for="pass"> Old
+											Password</label>
 									</div>
 								</div>
 								<div class="row">
 									<div class="input-field col s12">
-										<input id="pass" type="password" class="validate" name="new_password"> 
-										<label for="pass"> New Password</label>
+										<input id="pass" type="password" class="validate"
+											name="new_password"> <label for="pass"> New
+											Password</label>
 									</div>
-								</div>								
+								</div>
 								<div class="row" style="margin: 0px;">
-									<button class="btn waves-effect waves-light yellow darken-4" type="submit">Save</button>
+									<button class="btn waves-effect waves-light yellow darken-4"
+										type="submit">Save</button>
 								</div>
 							</form>
 						</div>
 					</div>
 				</div>
 			</div>
-			<br>
-			<br>
+			<br> <br>
 		</div>
 	</div>
 

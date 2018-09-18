@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1" session="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="java.util.List"%>
@@ -25,19 +25,22 @@
 </head>
 <body>
 	<%
-		int id = (Integer)request.getAttribute("idUser");
+		HttpSession session = request.getSession(false);
+		int id = (Integer) session.getAttribute("idUser");
 		List<Note> notes = new ArrayList<Note>();
 		notes = dao.getNotes(id);
 		String username = dao.getUsername(id);
+		session.setAttribute("notes", notes);
+		session.setAttribute("username", username);
 		pageContext.setAttribute("notes", notes);
-		pageContext.setAttribute("id", id);
 		pageContext.setAttribute("username", username);
 	%>
 	<!-- Dropdown Structure -->
 	<ul id="dropdown1" class="dropdown-content">
 		<li><a href="./editUser.jsp">EDIT USER</a></li>
 		<li class="divider"></li>
-		<li class="red"><a href="./index.jsp" style="color: #fff;">SIGN OUT</a></li>
+		<li class="red"><a href="./index.jsp" style="color: #fff;">SIGN
+				OUT</a></li>
 	</ul>
 
 	<nav class="deep-orange darken-4">
@@ -66,9 +69,29 @@
 									<div class="input-field col s12">
 										<input placeholder="Label" type="text" name="label">
 									</div>
+									<div>
+									    <p>
+									      <label>
+									        <input class="with-gap" name="red" type="radio" checked />
+									        <span>Red</span>
+									      </label>
+									    </p>
+									    <p>
+									      <label>
+									        <input class="with-gap" name="blue" type="radio" />
+									        <span>Blue</span>
+									      </label>
+									    </p>
+									    <p>
+									      <label>
+									        <input class="with-gap" name="green" type="radio"  />
+									        <span>Green</span>
+									      </label>
+									    </p>
+									    </div>
 								</div>
+								
 								<div class="row" style="margin: 0px;">
-									<input type="hidden" name="idUser" value="${id}">
 									<button
 										class="btn waves-effect waves-light yellow darken-4 right"
 										type="submit">Create Note</button>
@@ -87,7 +110,7 @@
 								<form action="updateNote" method="post">
 									<div class="row">
 										<a
-											href="./removeNote?idNote=${notes.id}&idUser=${notes.idUser}"
+											href="./removeNote?idNote=${notes.id}"
 											style="color: #000;"><i
 											class="close material-icons right">close</i></a>
 
@@ -102,7 +125,7 @@
 										<input type="hidden" name="label" value="${notes.label}">
 										<input type="hidden" name="idNote" value="${notes.id}">
 										<input type="hidden" name="idUser" value="${notes.idUser}">
-										
+
 										<button
 											class="btn waves-effect waves-light yellow darken-4 right"
 											type="submit">Save</button>

@@ -19,7 +19,8 @@
 <body>
 	<nav class="deep-orange darken-4" role="navigation">
 		<div class="nav-wrapper container">
-			<a id="logo-container" href="./index.jsp" class="brand-logo">Holy Note</a>
+			<a id="logo-container" href="./index.jsp" class="brand-logo">Holy
+				Note</a>
 			<ul class="right">
 			</ul>
 		</div>
@@ -34,26 +35,26 @@
 							<form action="verifyLogin" method="post">
 								<div class="row">
 									<div class="input-field col s12">
-										<input id="username" type="text" class="validate" name="username"> 
-										<label for="username">Username</label>
+										<input id="username" type="text" class="validate"
+											name="username"> <label for="username">Username</label>
 									</div>
 								</div>
 								<div class="row">
 									<div class="input-field col s12">
-										<input id="pass" type="password" class="validate" name="password"> 
-										<label for="pass">Password</label>
+										<input id="pass" type="password" class="validate"
+											name="password"> <label for="pass">Password</label>
 									</div>
 								</div>
 								<div class="row">
-									<button class="btn waves-effect waves-light yellow darken-4" type="submit">Login</button>
+									<button class="btn waves-effect waves-light yellow darken-4"
+										type="submit">Login</button>
 								</div>
 							</form>
 						</div>
 					</div>
 				</div>
 			</div>
-			<br>
-			<br>
+			<br> <br>
 		</div>
 	</div>
 

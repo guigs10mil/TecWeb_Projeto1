@@ -19,16 +19,16 @@ public class AddNote extends HttpServlet {
 					throws ServletException, IOException {
 		DAO dao = new DAO();
 		Note note = new Note();
+		HttpSession session = request.getSession(true);
 		note.setColor("#ffffff");
 		note.setDateCreated(Calendar.getInstance());
 		note.setText(request.getParameter("text"));
-		note.setIdUser(Integer.valueOf(request.getParameter("idUser")));
+		note.setIdUser((Integer)session.getAttribute("idUser"));
 		note.setLabel(request.getParameter("label"));
-		dao.addNote(note);
-
+		if (note.getText().length()>0 && note.getLabel().length()>0){
+			dao.addNote(note);
+		}
 		dao.close();
-		
-        request.setAttribute("idUser", note.getIdUser());
         request.getRequestDispatcher("./notes.jsp").forward(request, response);
 	}
 }
