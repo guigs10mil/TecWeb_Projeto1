@@ -1,6 +1,8 @@
 package keep;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +30,8 @@ public class VerifyLogin extends HttpServlet {
 			int idUser = dao.getIdUser(user);
 			HttpSession session = request.getSession(true);
 			session.setAttribute("idUser", idUser);
+			List<String> filter = new ArrayList<String>();
+			session.setAttribute("filter", filter);
 			request.getRequestDispatcher("./notes.jsp").forward(request, response);
 			System.out.println("Sign In Succeeded!");
 		} else {

@@ -20,7 +20,7 @@ public class AddNote extends HttpServlet {
 		DAO dao = new DAO();
 		Note note = new Note();
 		HttpSession session = request.getSession(true);
-		note.setColor("#ffffff");
+		note.setColor(request.getParameter("color"));
 		note.setDateCreated(Calendar.getInstance());
 		note.setText(request.getParameter("text"));
 		note.setIdUser((Integer)session.getAttribute("idUser"));

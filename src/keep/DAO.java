@@ -141,33 +141,33 @@ public class DAO {
 		return users;
 	}
 
-	public List<Note> getNotes(int id) {
-		List<Note> notes = new ArrayList<Note>();
-		try {
-			PreparedStatement stmt = connection
-					.prepareStatement("SELECT * FROM Note WHERE id_user=? ORDER BY date_created DESC");
-			stmt.setInt(1, id);
-			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				Note note = new Note();
-				note.setId(rs.getInt("id_note"));
-				note.setColor(rs.getString("color"));
-				Calendar data = Calendar.getInstance();
-				data.setTimeInMillis(rs.getLong("date_created"));
-				note.setDateCreated(data);
-				note.setText(rs.getString("text"));
-				note.setIdUser(rs.getInt("id_user"));
-				note.setLabel(rs.getString("label"));
-				notes.add(note);
-			}
-			rs.close();
-			stmt.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return notes;
-	}
+//	public List<Note> getNotes(int id) {
+//		List<Note> notes = new ArrayList<Note>();
+//		try {
+//			PreparedStatement stmt = connection
+//					.prepareStatement("SELECT * FROM Note WHERE id_user=? ORDER BY date_created DESC");
+//			stmt.setInt(1, id);
+//			ResultSet rs = stmt.executeQuery();
+//			while (rs.next()) {
+//				Note note = new Note();
+//				note.setId(rs.getInt("id_note"));
+//				note.setColor(rs.getString("color"));
+//				Calendar data = Calendar.getInstance();
+//				data.setTimeInMillis(rs.getLong("date_created"));
+//				note.setDateCreated(data);
+//				note.setText(rs.getString("text"));
+//				note.setIdUser(rs.getInt("id_user"));
+//				note.setLabel(rs.getString("label"));
+//				notes.add(note);
+//			}
+//			rs.close();
+//			stmt.close();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return notes;
+//	}
 
 	public void close() {
 		try {
@@ -270,5 +270,65 @@ public class DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public List<String> getColors(int id) {
+		List<String> colors = new ArrayList<String>();
+		try {
+			PreparedStatement stmt = connection
+					.prepareStatement("SELECT DISTINCT color FROM Note WHERE id_user=? ORDER BY color");
+			stmt.setInt(1, id);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				colors.add(rs.getString("color"));
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return colors;
+	}
+
+	public List<Note> getNotes(int id, List<String> colors) {
+		List<Note> notes = new ArrayList<Note>();
+		try {
+			String prepared = "SELECT * FROM Note WHERE ( id_user=?";
+			if (colors.size() > 0) {
+				prepared += " AND (";
+				for (String color : colors) {
+					if (colors.indexOf(color) == (colors.size() - 1)) {
+						prepared += "color=" + "'" + color + "'" + ")";
+					} else {
+						prepared += "color=" + "'" + color + "'" + " OR ";
+					}
+				}
+			}
+			prepared += " ) ORDER BY date_created DESC";
+			PreparedStatement stmt = connection.prepareStatement(prepared);
+			stmt.setInt(1, id);
+			System.out.println(stmt);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Note note = new Note();
+				note.setId(rs.getInt("id_note"));
+				note.setColor(rs.getString("color"));
+				Calendar data = Calendar.getInstance();
+				data.setTimeInMillis(rs.getLong("date_created"));
+				note.setDateCreated(data);
+				note.setText(rs.getString("text"));
+				note.setIdUser(rs.getInt("id_user"));
+				note.setLabel(rs.getString("label"));
+				notes.add(note);
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(notes);
+		return notes;
 	}
 }

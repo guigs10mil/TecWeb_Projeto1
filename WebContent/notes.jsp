@@ -6,9 +6,11 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Calendar"%>
 <%@ page import="keep.Note"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1.0" />
@@ -28,12 +30,19 @@
 		HttpSession session = request.getSession(false);
 		int id = (Integer) session.getAttribute("idUser");
 		List<Note> notes = new ArrayList<Note>();
-		notes = dao.getNotes(id);
+		List<String> colors = new ArrayList<String>();
+		@SuppressWarnings("unchecked")
+		List<String> filter = (List<String>) session.getAttribute("filter");
+		notes = dao.getNotes(id, filter);
 		String username = dao.getUsername(id);
 		session.setAttribute("notes", notes);
 		session.setAttribute("username", username);
 		pageContext.setAttribute("notes", notes);
 		pageContext.setAttribute("username", username);
+		colors = dao.getColors(id);
+		pageContext.setAttribute("colors", colors);
+		System.out.println(colors);
+		session.setAttribute("colors", colors);
 	%>
 	<!-- Dropdown Structure -->
 	<ul id="dropdown1" class="dropdown-content">
@@ -70,27 +79,30 @@
 										<input placeholder="Label" type="text" name="label">
 									</div>
 									<div>
-									    <p>
-									      <label>
-									        <input class="with-gap" name="red" type="radio" checked />
-									        <span>Red</span>
-									      </label>
-									    </p>
-									    <p>
-									      <label>
-									        <input class="with-gap" name="blue" type="radio" />
-									        <span>Blue</span>
-									      </label>
-									    </p>
-									    <p>
-									      <label>
-									        <input class="with-gap" name="green" type="radio"  />
-									        <span>Green</span>
-									      </label>
-									    </p>
-									    </div>
+										&nbsp; <label> <input class="with-gap" name="color"
+											type="radio" value="blue" /> <span>Blue</span>
+										</label> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; <label>
+											<input class="with-gap" name="color" type="radio"
+											value="green" /> <span>Green</span>
+										</label> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; <label>
+											<input class="with-gap" name="color" type="radio"
+											value="pink" /> <span>Pink</span>
+										</label> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; <label>
+											<input class="with-gap" name="color" type="radio"
+											value="purple" /> <span>Purple</span>
+										</label> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; <label>
+											<input class="with-gap" name="color" type="radio"
+											value="red" /> <span>Red</span>
+										</label> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; <label>
+											<input class="with-gap" name="color" type="radio"
+											value="teal" /> <span>Teal</span>
+										</label> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; <label>
+											<input class="with-gap" name="color" type="radio"
+											value="white" checked/> <span>White</span>
+										</label>
+									</div>
 								</div>
-								
+
 								<div class="row" style="margin: 0px;">
 									<button
 										class="btn waves-effect waves-light yellow darken-4 right"
@@ -101,17 +113,29 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="row" style="padding-left: 11.25px; padding-right: 11.25px; margin-top: 0px; margin-bottom: 0px;">
+				<form action="FilterColor" method="post">
+					<c:forEach var="color" items="${colors}" varStatus="id">
+						<label> <input type="checkbox" class="filled-in"
+							checked="checked" name="color" value="${color}" /><span>${color}</span>
+						</label>
+						&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+					</c:forEach>
+					<button class="btn waves-effect waves-light yellow darken-4 right"
+						type="submit">Filter</button>
+				</form>
+			</div>
+
 			<div class="row">
 
 				<c:forEach var="notes" items="${notes}" varStatus="id">
 					<div class="col s4">
 						<div class="card">
-							<div class="card-content">
+							<div class="${notes.color} lighten-3 card-content">
 								<form action="updateNote" method="post">
 									<div class="row">
-										<a
-											href="./removeNote?idNote=${notes.id}"
-											style="color: #000;"><i
+										<a href="./removeNote?idNote=${notes.id}" style="color: #000;"><i
 											class="close material-icons right">close</i></a>
 
 										<div class="input-field col s12" style="margin: 0px;">
@@ -146,6 +170,5 @@
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="js/materialize.js"></script>
 	<script src="js/init.js"></script>
-
 </body>
 </html>

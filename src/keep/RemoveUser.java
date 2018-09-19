@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/removeUser")
 public class RemoveUser extends HttpServlet {
@@ -24,8 +25,13 @@ public class RemoveUser extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		DAO dao = new DAO();
-        dao.removeUser(Integer.valueOf(request.getParameter("idUser")));
-        System.out.println(request.getParameter("idUser"));
+		HttpSession session = request.getSession(true);
+		User user = new User();
+		user.setName((String)session.getAttribute("username"));
+		user.setPassword(request.getParameter("password"));
+		if (dao.verifyLogin(user)) {
+			dao.removeUser((Integer)session.getAttribute("idUser"));
+		}
         dao.close();
         
         request.getRequestDispatcher("./index.jsp").forward(request, response);
