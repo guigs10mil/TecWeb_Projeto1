@@ -55,28 +55,31 @@
 
 	<nav class="deep-orange darken-4">
 		<div class="nav-wrapper container">
-			<a id="logo-container" href="./index.jsp" class="brand-logo">Holy
-				Note</a>
-			<ul class="right">
-				<li><a class="dropdown-trigger" href="#!"
-					data-target="dropdown1">${username}<i
-						class="material-icons right">account_circle</i></a></li>
-			</ul>
+			<div class="row">
+				<a id="logo-container" href="./index.jsp" class="brand-logo">Holy
+					Note</a>
+				<div class="col s6 offset-s3">
+					<div class="input-field center">
+						<form action="SearchText" method="post">
+							<input placeholder="Search Text or Label" type="text" name="search"
+								style="width: 300px; align: right; color: #fff;">
+							<button class="btn waves-effect waves-light yellow darken-4"
+								type="submit" style="margin: 10px;">Search</button>
+						</form>
+					</div>
+				</div>
+				<ul class="right brand-logo">
+					<li><a class="dropdown-trigger" href="#!"
+						data-target="dropdown1">${username}<i
+							class="material-icons right">account_circle</i></a></li>
+				</ul>
+			</div>
 		</div>
 	</nav>
 	<div class="section no-pad-bot" id="index-banner">
 		<div class="container">
 			<br>
-			<div class="row" style="margin: 0px; padding-left: 11.25px; padding-right: 11.25px;">
-				<div class="input-field">
-					<form action="SearchText" method="post">
-						<input placeholder="Search Text or Label" type="text" name="search"
-							style="width: 300px; align: right;">
-						<button class="btn waves-effect waves-light yellow darken-4"
-							type="submit" style="margin: 10px;">Search</button>
-					</form>
-				</div>
-			</div>
+			
 			<div class="row">
 				<div class="col s12">
 					<div class="card">

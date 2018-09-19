@@ -22,7 +22,7 @@ public class DAO {
 		}
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost/keep?useTimezone=true&serverTimezone=UTC",
-					"root", "Magonegro1");
+					"root", "");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
