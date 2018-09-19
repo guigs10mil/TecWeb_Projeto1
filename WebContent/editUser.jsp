@@ -28,6 +28,7 @@
 	<div class="section no-pad-bot" id="index-banner">
 		<div class="container">
 			<br>
+			<h3 style="padding-left: 11.25px; padding-right: 11.25px;"> EDIT USER </h3>
 			<div class="row">
 				<div class="col s12 m12">
 					<div class="card">
@@ -57,6 +58,27 @@
 								<div class="row" style="margin: 0px;">
 									<button class="btn waves-effect waves-light yellow darken-4"
 										type="submit">Save</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<h3 style="padding-left: 11.25px; padding-right: 11.25px;"> REMOVE USER </h3>
+			<div class="row">
+				<div class="col s12 m12">
+					<div class="card">
+						<div class="card-content">
+							<form action="removeUser" method="post">
+								<div class="row">
+									<div class="input-field col s12">
+										<input id="pass" type="password" class="validate"
+											name="password"> <label for="pass">Password</label>
+									</div>
+								</div>
+								<div class="row" style="margin: 0px;">
+									<button class="btn waves-effect waves-light red darken-4"
+										type="submit">Delete</button>
 								</div>
 							</form>
 						</div>

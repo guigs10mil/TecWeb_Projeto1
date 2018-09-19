@@ -22,7 +22,7 @@ public class DAO {
 		}
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost/keep?useTimezone=true&serverTimezone=UTC",
-					"root", "");
+					"root", "Magonegro1");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -141,34 +141,6 @@ public class DAO {
 		return users;
 	}
 
-//	public List<Note> getNotes(int id) {
-//		List<Note> notes = new ArrayList<Note>();
-//		try {
-//			PreparedStatement stmt = connection
-//					.prepareStatement("SELECT * FROM Note WHERE id_user=? ORDER BY date_created DESC");
-//			stmt.setInt(1, id);
-//			ResultSet rs = stmt.executeQuery();
-//			while (rs.next()) {
-//				Note note = new Note();
-//				note.setId(rs.getInt("id_note"));
-//				note.setColor(rs.getString("color"));
-//				Calendar data = Calendar.getInstance();
-//				data.setTimeInMillis(rs.getLong("date_created"));
-//				note.setDateCreated(data);
-//				note.setText(rs.getString("text"));
-//				note.setIdUser(rs.getInt("id_user"));
-//				note.setLabel(rs.getString("label"));
-//				notes.add(note);
-//			}
-//			rs.close();
-//			stmt.close();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return notes;
-//	}
-
 	public void close() {
 		try {
 			connection.close();
@@ -217,12 +189,14 @@ public class DAO {
 	public void removeUser(Integer id) {
 		PreparedStatement stmt;
 		try {
+			stmt = connection.prepareStatement("DELETE FROM note WHERE id_user=?");
+			stmt.setInt(1, id);
+			stmt.execute();
 			stmt = connection.prepareStatement("DELETE FROM user WHERE id_user=?");
-			stmt.setLong(1, id);
+			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -308,7 +282,6 @@ public class DAO {
 			prepared += " ) ORDER BY date_created DESC";
 			PreparedStatement stmt = connection.prepareStatement(prepared);
 			stmt.setInt(1, id);
-			System.out.println(stmt);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				Note note = new Note();
@@ -328,7 +301,6 @@ public class DAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(notes);
 		return notes;
 	}
 }
