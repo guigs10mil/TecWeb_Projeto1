@@ -33,7 +33,8 @@
 		List<String> colors = new ArrayList<String>();
 		@SuppressWarnings("unchecked")
 		List<String> filter = (List<String>) session.getAttribute("filter");
-		notes = dao.getNotes(id, filter);
+		String search = (String) session.getAttribute("search");
+		notes = dao.getNotes(id, filter, search);
 		String username = dao.getUsername(id);
 		session.setAttribute("notes", notes);
 		session.setAttribute("username", username);
@@ -66,6 +67,16 @@
 	<div class="section no-pad-bot" id="index-banner">
 		<div class="container">
 			<br>
+			<div class="row" style="margin: 0px; padding-left: 11.25px; padding-right: 11.25px;">
+				<div class="input-field">
+					<form action="SearchText" method="post">
+						<input placeholder="Search Text or Label" type="text" name="search"
+							style="width: 300px; align: right;">
+						<button class="btn waves-effect waves-light yellow darken-4"
+							type="submit" style="margin: 10px;">Search</button>
+					</form>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col s12">
 					<div class="card">
@@ -91,14 +102,14 @@
 											<input class="with-gap" name="color" type="radio"
 											value="purple" /> <span>Purple</span>
 										</label> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; <label>
-											<input class="with-gap" name="color" type="radio"
-											value="red" /> <span>Red</span>
+											<input class="with-gap" name="color" type="radio" value="red" />
+											<span>Red</span>
 										</label> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; <label>
 											<input class="with-gap" name="color" type="radio"
 											value="teal" /> <span>Teal</span>
 										</label> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; <label>
 											<input class="with-gap" name="color" type="radio"
-											value="white" checked/> <span>White</span>
+											value="white" checked /> <span>White</span>
 										</label>
 									</div>
 								</div>
@@ -114,7 +125,8 @@
 				</div>
 			</div>
 
-			<div class="row" style="padding-left: 11.25px; padding-right: 11.25px; margin-top: 0px; margin-bottom: 0px;">
+			<div class="row"
+				style="padding-left: 11.25px; padding-right: 11.25px; margin-top: 0px; margin-bottom: 0px;">
 				<form action="FilterColor" method="post">
 					<c:forEach var="color" items="${colors}" varStatus="id">
 						<label> <input type="checkbox" class="filled-in"

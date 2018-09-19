@@ -31,7 +31,9 @@ public class VerifyLogin extends HttpServlet {
 			HttpSession session = request.getSession(true);
 			session.setAttribute("idUser", idUser);
 			List<String> filter = new ArrayList<String>();
+			String search = new String();
 			session.setAttribute("filter", filter);
+			session.setAttribute("search", search);
 			request.getRequestDispatcher("./notes.jsp").forward(request, response);
 			System.out.println("Sign In Succeeded!");
 		} else {

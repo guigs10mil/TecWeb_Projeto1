@@ -265,7 +265,7 @@ public class DAO {
 		return colors;
 	}
 
-	public List<Note> getNotes(int id, List<String> colors) {
+	public List<Note> getNotes(int id, List<String> colors, String search) {
 		List<Note> notes = new ArrayList<Note>();
 		try {
 			String prepared = "SELECT * FROM Note WHERE ( id_user=?";
@@ -279,7 +279,12 @@ public class DAO {
 					}
 				}
 			}
+			
+			if (search.length() > 0) {
+				prepared += " AND (text LIKE '%" + search + "%' OR label LIKE '%" + search + "%')" ;
+			}
 			prepared += " ) ORDER BY date_created DESC";
+			System.out.println(prepared);
 			PreparedStatement stmt = connection.prepareStatement(prepared);
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
